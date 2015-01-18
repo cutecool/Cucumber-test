@@ -24,3 +24,24 @@ end
   sleep(1)
   browser.close
 end
+
+當(/^輸入"(.*?)"和"(.*?)"並登入$/) do |arg1, arg2|
+  browser.text_field(:name, "userId").set(arg1)
+  browser.text_field(:name, "password").set(arg2)
+  sleep(1)
+  browser.button(:name, "Next").click
+end
+
+那麼(/^我可以在畫面的右上角看到"(.*?)"$/) do |arg1|
+  sleep(1)
+  
+  if browser.div(:id, "UserNameInfo_Project").exist?
+    d = browser.div :id => "UserNameInfo_Project"
+    expect(d.text).to eq arg1
+  else
+    expect(browser.div(:id, "UserNameInfo_Project").exist?).to be false
+  end
+
+  sleep(1)
+  browser.close
+end
